@@ -10,7 +10,7 @@ const PaymentModal = ({ booking, onClose, onSuccess }) => {
     setProcessing(true);
 
     try {
-      // 1. Simulate Network Delay (looks real)
+      // 1. Simulate Network Delay
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // 2. Call Backend API

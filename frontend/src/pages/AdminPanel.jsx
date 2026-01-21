@@ -24,7 +24,7 @@ const AdminPanel = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 1. Fetch All Data (Including Stats)
+  // 1. Fetch All Data
   const fetchData = async () => {
     try {
       const [statsRes, bookingRes, typeRes, roomRes] = await Promise.all([

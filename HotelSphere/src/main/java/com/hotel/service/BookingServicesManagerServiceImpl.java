@@ -20,7 +20,7 @@ public class BookingServicesManagerServiceImpl implements BookingServicesManager
     private final ServiceRepository serviceRepository;
     private final BookingServiceRepository bookingServiceRepository;
 
-    // ✅ MANUAL CONSTRUCTOR
+ 
     public BookingServicesManagerServiceImpl(BookingRepository bookingRepository,
                                              ServiceRepository serviceRepository,
                                              BookingServiceRepository bookingServiceRepository) {

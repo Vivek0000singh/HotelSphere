@@ -16,7 +16,7 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
-    // ✅ POST /api/payments/pay
+    
     @PostMapping("/pay")
     public ResponseEntity<Payment> makePayment(@RequestBody PaymentRequestDTO request) {
         Payment payment = paymentService.createPayment(

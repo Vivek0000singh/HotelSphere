@@ -1,6 +1,6 @@
 package com.hotel.service;
 
-// ✅ Imports
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
-    // ✅ MANUAL CONSTRUCTOR (Fixes "Not Initialized" errors)
+    
     public AuthServiceImpl(UserRepository userRepository, 
                            PasswordEncoder passwordEncoder, 
                            JwtUtil jwtUtil) {

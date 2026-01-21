@@ -17,7 +17,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // 🔐 REPLACE THIS WITH A STRONG SECRET KEY (Must be at least 256 bits)
+  
     private static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
 
     public String extractEmail(String token) {
@@ -29,7 +29,7 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    // ✅ FIX: Allow generating token from a String email
+    
     public String generateToken(String email) {
         return generateToken(new HashMap<>(), email);
     }

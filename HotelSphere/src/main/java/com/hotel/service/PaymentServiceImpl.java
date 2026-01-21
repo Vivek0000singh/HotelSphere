@@ -18,7 +18,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
     private final BookingRepository bookingRepository;
 
-    // ✅ MANUAL CONSTRUCTOR
+ 
     public PaymentServiceImpl(PaymentRepository paymentRepository, 
                               BookingRepository bookingRepository) {
         this.paymentRepository = paymentRepository;

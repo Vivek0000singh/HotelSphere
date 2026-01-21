@@ -1,6 +1,6 @@
 package com.hotel.entity;
 
-import java.math.BigDecimal; // 🔥 Import this
+import java.math.BigDecimal; 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -20,9 +20,11 @@ public class Booking {
 
     private LocalDate checkInDate;
     private LocalDate checkOutDate;
-    private String bookingStatus; // CONFIRMED, CANCELLED
+    private String bookingStatus; 
+    
+    // CONFIRMED, CANCELLED
 
-    // 🔥 THIS WAS MISSING: The total price of the booking
+   
     private BigDecimal totalAmount; 
 
     @ManyToOne(fetch = FetchType.EAGER)

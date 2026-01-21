@@ -14,7 +14,7 @@ public class RoomServiceImpl implements RoomService {
 
     private final RoomRepository roomRepository;
 
-    // ✅ MANUAL CONSTRUCTOR
+    
     public RoomServiceImpl(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
     }

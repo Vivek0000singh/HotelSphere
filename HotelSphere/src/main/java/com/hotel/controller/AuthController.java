@@ -20,7 +20,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    // ✅ REGISTER → ONLY TOKEN
+    // REGISTER → ONLY TOKEN
     @PostMapping("/register")
     public ResponseEntity<String> register(
             @RequestBody RegisterRequestDTO request) {
@@ -28,7 +28,7 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(request));
     }
 
-    // ✅ LOGIN → TOKEN + USER INFO
+    // LOGIN → TOKEN + USER INFO
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDTO> login(
             @RequestBody LoginRequestDTO request) {

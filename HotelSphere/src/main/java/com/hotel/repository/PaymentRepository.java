@@ -6,6 +6,6 @@ import com.hotel.entity.Payment;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
     
-    // ✅ Find all payments linked to a specific Booking
+    
     List<Payment> findByBookingBookingId(Long bookingId);
 }

@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-//com.hotel.entity.Service
+
 @Entity
 @Table(name = "services")
 public class Service {

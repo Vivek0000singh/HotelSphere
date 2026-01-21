@@ -23,7 +23,7 @@ public class UserController {
         return ResponseEntity.ok(userRepository.save(user));
     }
 
-    // GET ALL USERS (optional but useful)
+    
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         return ResponseEntity.ok(userRepository.findAll());

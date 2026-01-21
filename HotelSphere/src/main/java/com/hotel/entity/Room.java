@@ -18,7 +18,7 @@ public class Room {
     private String floor;
     private String status;
 
-    // 🔥 FIX 3: Fetch RoomType EAGERLY so the Price is visible!
+    
     @ManyToOne(fetch = FetchType.EAGER) 
     @JoinColumn(name = "room_type_id", nullable = false)
     private RoomType roomType; 

@@ -27,13 +27,13 @@ public class BookingServiceController {
     private final BookingRepository bookingRepository;
     private final BookingServiceRepository bookingServiceRepository;
 
-    // 1. Get All Services (Menu)
+    // 1. Get All Services
     @GetMapping
     public ResponseEntity<List<HotelService>> getAllServices() {
         return ResponseEntity.ok(serviceRepository.findAll());
     }
 
-    // 2. Create Service (Admin)
+    // 2. Create Service 
     @PostMapping("/create")
     public ResponseEntity<HotelService> createService(@RequestBody HotelService service) {
         if(service.getName() == null || service.getPrice() == null) {
@@ -42,25 +42,25 @@ public class BookingServiceController {
         return ResponseEntity.ok(serviceRepository.save(service));
     }
 
-    // 3. Add Service to Booking (Order)
+    // 3. Add Service to Booking method
     @PostMapping("/add-to-booking")
     public ResponseEntity<BookingService> addServiceToBooking(
             @RequestParam Long bookingId,
             @RequestParam Long serviceId,
             @RequestParam Integer quantity
     ) {
-        // A. Fetch Entities
+        // Fetch Entities
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
 
         HotelService service = serviceRepository.findById(serviceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Service not found"));
 
-        // B. Calculate Service Cost
+        // Calculate Service Cost
         BigDecimal servicePrice = service.getPrice();
         BigDecimal totalServiceCost = servicePrice.multiply(BigDecimal.valueOf(quantity));
 
-        // C. Save the New BookingService Link
+        // Save the New BookingService Link
         BookingService bookingService = new BookingService();
         bookingService.setBooking(booking);
         bookingService.setService(service);
@@ -72,23 +72,23 @@ public class BookingServiceController {
         // Save first so it's included in the recalculation below
         BookingService savedService = bookingServiceRepository.save(bookingService);
 
-        // 🔥 D. RECALCULATE GRAND TOTAL (Room + All Services)
+        //  RECALCULATE GRAND TOTAL 
         updateBookingTotalAmount(booking);
 
         return ResponseEntity.ok(savedService);
     }
 
-    // 🔥 HELPER METHOD: Recalculates the entire bill
+ 
     private void updateBookingTotalAmount(Booking booking) {
         
-        // 1. Calculate Room Cost (Price * Nights)
+        // 1. Calculate Room Cost 
         BigDecimal roomPricePerNight = booking.getRoom().getRoomType().getBasePricePerNight();
         long nights = ChronoUnit.DAYS.between(booking.getCheckInDate(), booking.getCheckOutDate());
         if (nights < 1) nights = 1; // Minimum 1 night
         
         BigDecimal totalRoomCost = roomPricePerNight.multiply(BigDecimal.valueOf(nights));
 
-        // 2. Calculate Services Cost (Sum of all services attached to this booking)
+        // 2. Calculate Services Cost 
         List<BookingService> allServices = bookingServiceRepository.findByBookingBookingId(booking.getBookingId());
         
         BigDecimal totalServicesCost = BigDecimal.ZERO;

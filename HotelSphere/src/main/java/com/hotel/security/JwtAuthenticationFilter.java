@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    // 🔥 This service is crucial. It loads the User.java logic!
+
     private final UserDetailsService userDetailsService; 
 
     @Override
@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             
-            // 🔥 CRITICAL STEP: Load user from DB to get the "ROLE_" logic
+            
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             if (jwtUtil.validateToken(jwt)) {
@@ -60,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
-                        userDetails.getAuthorities() // This now returns [ROLE_ADMIN]
+                        userDetails.getAuthorities() // This now returns the role admin 
                 );
 
                 System.out.println("🔥 DEBUG: User " + userEmail + " has authorities: " + userDetails.getAuthorities());

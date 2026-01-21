@@ -26,7 +26,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // ✅ MATCHING NAME: This must match your class name exactly
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
 
@@ -73,7 +72,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/rooms/**", "/api/room-types/**").permitAll()
                 
-                // 🔥 Allow Service Menu Access
+               
                 .requestMatchers("/api/services/**").permitAll()
 
                 .requestMatchers("/api/bookings/all").hasAuthority("ROLE_ADMIN")

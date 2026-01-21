@@ -12,7 +12,7 @@ public class JwtResponseDTO {
     private String fullName;
     private String role;
 
-    // ✅ MANUAL CONSTRUCTOR (Fixes the red line on "return new JwtResponseDTO(...)")
+    
     public JwtResponseDTO(String token, Long userId, String fullName, String role) {
         this.token = token;
         this.userId = userId;

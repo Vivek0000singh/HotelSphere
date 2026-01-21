@@ -21,13 +21,13 @@ public class RoomTypeController {
 
     private final RoomTypeRepository roomTypeRepository;
 
-    // ✅ 1. Allow Admin to create a new Type with a PRICE
+    
     @PostMapping
     public ResponseEntity<RoomType> createRoomType(@RequestBody RoomType roomType) {
         return ResponseEntity.ok(roomTypeRepository.save(roomType));
     }
 
-    // ✅ 2. Get all types (for the dropdown in Admin Panel)
+     
     @GetMapping
     public ResponseEntity<List<RoomType>> getAllRoomTypes() {
         return ResponseEntity.ok(roomTypeRepository.findAll());

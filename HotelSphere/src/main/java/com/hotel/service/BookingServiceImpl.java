@@ -23,7 +23,7 @@ public class BookingServiceImpl implements BookingService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
 
-    // ✅ MANUAL CONSTRUCTOR (Fixes the red lines)
+    
     public BookingServiceImpl(BookingRepository bookingRepository, 
                               RoomRepository roomRepository, 
                               UserRepository userRepository) {

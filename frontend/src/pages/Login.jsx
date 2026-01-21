@@ -68,7 +68,6 @@ const Login = () => {
               </button>
             </form>
 
-            {/* ✅ FIXED: Now inside the card-body */}
             <div className="text-center mt-3">
               <p className="text-muted">
                 Don't have an account?{" "}

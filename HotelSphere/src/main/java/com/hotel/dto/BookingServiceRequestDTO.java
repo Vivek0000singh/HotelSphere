@@ -8,8 +8,8 @@ import lombok.Data;
 
 public class BookingServiceRequestDTO {
 	   private Long bookingId;
-	    private String roomNumber;     // 🔥 KEY FIELD
-	    private Long serviceId;     // 🔥 REQUIRED
-	    private int quantity;       // 🔥 REQUIRED
+	    private String roomNumber;    
+	    private Long serviceId;     
+	    private int quantity;       
 	    private LocalDate serviceDate;
 }

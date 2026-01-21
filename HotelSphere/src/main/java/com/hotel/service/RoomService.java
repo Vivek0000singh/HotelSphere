@@ -6,8 +6,7 @@ import com.hotel.entity.Room;
 
 public interface RoomService {
     
-    // ✅ OLD: getAvailableRooms(); (Too simple)
-    // ✅ NEW: Accept Check-In and Check-Out dates
+    
     List<Room> getAvailableRooms(LocalDate checkIn, LocalDate checkOut, String roomType);
     
     // Keep your other methods...

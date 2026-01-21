@@ -28,17 +28,17 @@ public class DashboardController {
         // 1. Total Bookings
         long totalBookings = allBookings.size();
 
-        // 2. Total Revenue (Sum of 'totalAmount')
+        // 2. Total Revenue 
         BigDecimal totalRevenue = allBookings.stream()
                 .map(b -> b.getTotalAmount() != null ? b.getTotalAmount() : BigDecimal.ZERO)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // 3. Active Bookings (CONFIRMED or PAID)
+        // 3. Active Bookings 
         long activeBookings = allBookings.stream()
                 .filter(b -> "CONFIRMED".equals(b.getBookingStatus()) || "PAID".equals(b.getBookingStatus()))
                 .count();
 
-        // 4. Available Rooms (Total - Active)
+        // 4. Available Rooms 
         long totalRooms = roomRepository.count();
         long availableRooms = totalRooms - activeBookings;
         if (availableRooms < 0) availableRooms = 0;

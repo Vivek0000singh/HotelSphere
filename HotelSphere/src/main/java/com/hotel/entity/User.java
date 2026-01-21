@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements UserDetails { // 🔥 1. Implement UserDetails
+public class User implements UserDetails { 
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,10 +50,7 @@ public class User implements UserDetails { // 🔥 1. Implement UserDetails
 	@JsonIgnore
 	private List<Booking> bookings;
 
-	// ==================================================
-	// SPRING SECURITY METHODS (The Fix)
-	// ==================================================
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// This converts your String "ADMIN" into a real Authority
@@ -71,7 +68,7 @@ public class User implements UserDetails { // 🔥 1. Implement UserDetails
 		return passwordHash; // Point to your password field
 	}
 
-	// Standard defaults (Required for login to work)
+	// Standard defaults 
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;

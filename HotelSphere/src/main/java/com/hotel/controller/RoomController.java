@@ -37,7 +37,7 @@ public class RoomController {
 
     private final RoomService roomService;
     
-    // 🔥 FIX 1: You were missing this line!
+  
     private final RoomRepository roomRepository; 
     
     private final RoomTypeRepository roomTypeRepository;
@@ -45,7 +45,7 @@ public class RoomController {
     private final BookingServiceRepository bookingServiceRepository;
     private final PaymentRepository paymentRepository;
 
-    // ✅ FINAL DELETE METHOD
+  
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {

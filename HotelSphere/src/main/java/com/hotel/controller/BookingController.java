@@ -24,26 +24,26 @@ public class BookingController {
 
     private final BookingService bookingService;
 
-    // ✅ 1. CREATE BOOKING (Fixes "No static resource" error)
+    // 1. CREATE BOOKING 
     @PostMapping
     public ResponseEntity<Booking> createBooking(@RequestBody BookingRequestDTO bookingRequest) {
         Booking newBooking = bookingService.createBooking(bookingRequest);
         return ResponseEntity.ok(newBooking);
     }
 
-    // ✅ 2. GET ALL BOOKINGS (For Admin Panel)
+    // 2. GET ALL BOOKINGS
     @GetMapping("/all")
     public ResponseEntity<List<Booking>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
-    // ✅ 3. GET USER BOOKINGS (Fixes "Room Undefined" in My Bookings)
+    // 3. GET USER BOOKINGS 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Booking>> getUserBookings(@PathVariable Long userId) {
         return ResponseEntity.ok(bookingService.getUserBookings(userId));
     }
 
-    // ✅ 4. CANCEL BOOKING
+    //4. CANCEL BOOKING
     @DeleteMapping("/{bookingId}")
     public ResponseEntity<Void> cancelBooking(@PathVariable Long bookingId) {
         bookingService.cancelBooking(bookingId);

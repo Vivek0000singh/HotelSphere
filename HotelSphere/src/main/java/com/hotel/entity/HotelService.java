@@ -17,9 +17,9 @@ public class HotelService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long serviceId;  // ✅ Primary Key
+    private Long serviceId;  
 
-    private String name;     // ✅ Service Name
+    private String name;     
     private String description;
     private BigDecimal price;
 
