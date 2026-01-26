@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom"; // 🔥 Import useSearchParams
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import api from "../api/axios";
 import Navbar from "../components/Navbar";
 
 const BookingForm = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams(); // 🔥 Capture URL params
+  const [searchParams] = useSearchParams();
 
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // 🔥 PRE-FILL DATES FROM URL (if they exist)
   const [dates, setDates] = useState({
     checkIn: searchParams.get("checkIn") || "",
     checkOut: searchParams.get("checkOut") || "",
@@ -35,24 +34,27 @@ const BookingForm = () => {
   const handleBooking = async (e) => {
     e.preventDefault();
     setError("");
-    try {
-      const userId = localStorage.getItem("userId");
-      if (!userId) {
-        alert("Please login to book a room.");
-        navigate("/login");
-        return;
-      }
+    const userId = localStorage.getItem("userId");
 
+    if (!userId) {
+      alert("Please login to book a room.");
+      navigate("/login");
+      return;
+    }
+
+    try {
       const bookingData = {
         userId: userId,
         roomId: roomId,
         checkInDate: dates.checkIn,
         checkOutDate: dates.checkOut,
-        bookingStatus: "CONFIRMED",
+        // 🔥 This sends PENDING, but your Backend MUST accept it!
+        bookingStatus: "PENDING",
       };
 
       await api.post("/bookings", bookingData);
-      alert("Booking Successful! 🎉");
+
+      alert("Booking Initiated! Please go to 'My Bookings' to Pay.");
       navigate("/my-bookings");
     } catch (err) {
       console.error("Booking Error:", err);
@@ -113,7 +115,7 @@ const BookingForm = () => {
                     type="submit"
                     className="btn btn-primary w-100 py-2 fw-bold"
                   >
-                    Confirm Booking
+                    Confirm & Proceed to Pay
                   </button>
                 </form>
               </div>

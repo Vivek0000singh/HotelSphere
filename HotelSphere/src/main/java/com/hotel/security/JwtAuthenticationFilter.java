@@ -63,7 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         userDetails.getAuthorities() // This now returns the role admin 
                 );
 
-                System.out.println("🔥 DEBUG: User " + userEmail + " has authorities: " + userDetails.getAuthorities());
+                System.out.println("DEBUG: User " + userEmail + " has authorities: " + userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }

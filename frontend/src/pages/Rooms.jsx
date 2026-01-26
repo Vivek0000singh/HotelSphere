@@ -3,33 +3,52 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import api from "../api/axios";
 import Navbar from "../components/Navbar";
 
-// Helper: Rotates images based on Room ID so they don't all look the same
-const getRoomImage = (roomType, roomId) => {
-  const type = roomType?.toLowerCase() || "";
-  const id = roomId || 1;
-
-  // List of Luxury/Deluxe Images
-  const luxuryImages = [
-    "https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=1000",
-    "https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=1000",
-    "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=1000",
-    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1000",
-  ];
-
-  // Specific image for Suites
-  if (type.includes("suite")) {
-    return "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=1000";
-  }
-
-  // Use the ID to pick an image from the list
-  return luxuryImages[id % luxuryImages.length];
+// 1. New Image Mapping Object
+const roomTypeImages = {
+  "Single Standard":
+    "https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800",
+  "Double Deluxe":
+    "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=800",
+  "Twin Superior":
+    "https://images.unsplash.com/photo-1566665797739-1674de7a421a?q=80&w=800",
+  "Hollywood Twin":
+    "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800",
+  "Double-Double Family":
+    "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=800",
+  "Triple Guest Room":
+    "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?q=80&w=800",
+  "Quad Group Room":
+    "https://images.unsplash.com/photo-1505691938895-1758d7feb511?q=80&w=800",
+  "Standard Room":
+    "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?q=80&w=800",
+  "Deluxe View Room":
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800",
+  "Studio Kitchenette":
+    "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800",
+  "Junior Suite":
+    "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=800",
+  "Executive Suite":
+    "https://images.unsplash.com/photo-1591088398332-8a7791972843?q=80&w=800",
+  "Luxury Suite":
+    "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=800",
+  "Presidential Suite":
+    "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?q=80&w=800",
+  "Penthouse Suite":
+    "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800",
+  "Standard Twin":
+    "https://images.unsplash.com/photo-1544124499-58912cbddaad?q=80&w=800",
+  "Deluxe Studio":
+    "https://images.unsplash.com/photo-1554995207-c18c203602cb?q=80&w=800",
 };
+
+// Fallback image if name doesn't match
+const defaultImage =
+  "https://images.unsplash.com/photo-1611892440504-42a792e24d32?q=80&w=800";
 
 const Rooms = () => {
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Hooks for Navigation and URL params
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -38,23 +57,19 @@ const Rooms = () => {
     const fetchRooms = async () => {
       setLoading(true);
       try {
-        // Get params from URL (e.g., ?checkIn=2024-01-01)
         const checkIn = searchParams.get("checkIn");
         const checkOut = searchParams.get("checkOut");
         const type = searchParams.get("type");
 
         let res;
 
-        // 🔥 LOGIC: If dates exist, use Search API. Otherwise, get All Rooms.
         if (checkIn && checkOut) {
           console.log("Searching for available rooms...");
-          // Call the 'Available' endpoint we just built
           res = await api.get(
             `/rooms/available?checkIn=${checkIn}&checkOut=${checkOut}&roomType=${type || ""}`,
           );
         } else {
           console.log("Fetching all rooms...");
-          // Call the standard 'All Rooms' endpoint
           res = await api.get("/rooms");
         }
 
@@ -67,23 +82,16 @@ const Rooms = () => {
     };
 
     fetchRooms();
-  }, [searchParams]); // Re-run this whenever URL changes
+  }, [searchParams]);
 
   // 2. Handle "View Details" Click
   const handleBookNow = (roomId) => {
-    // Grab the dates currently in the URL
     const checkIn = searchParams.get("checkIn");
     const checkOut = searchParams.get("checkOut");
-
-    // Start building the target URL
     let targetUrl = `/book/${roomId}`;
-
-    // If we have dates, attach them to the next URL!
     if (checkIn && checkOut) {
       targetUrl += `?checkIn=${checkIn}&checkOut=${checkOut}`;
     }
-
-    // Go to Booking Page
     navigate(targetUrl);
   };
 
@@ -119,9 +127,13 @@ const Rooms = () => {
             {rooms.map((room) => (
               <div className="col-md-4 mb-4" key={room.roomId}>
                 <div className="card shadow border-0 h-100 transition-hover">
-                  {/* Dynamic Image */}
+                  {/* 🔥 3. USING THE NEW MAPPER HERE */}
                   <img
-                    src={getRoomImage(room.roomType?.name, room.roomId)}
+                    src={
+                      room.roomType
+                        ? roomTypeImages[room.roomType.name] || defaultImage
+                        : defaultImage
+                    }
                     className="card-img-top"
                     alt={room.roomType?.name || "Room"}
                     style={{ height: "250px", objectFit: "cover" }}
@@ -148,7 +160,6 @@ const Rooms = () => {
                         "Experience luxury and comfort."}
                     </p>
 
-                    {/* Button that carries dates to the next page */}
                     <button
                       onClick={() => handleBookNow(room.roomId)}
                       className="btn btn-outline-primary w-100 mt-auto"

@@ -45,7 +45,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setRoom(room);
         booking.setCheckInDate(request.getCheckInDate());
         booking.setCheckOutDate(request.getCheckOutDate());
-        booking.setBookingStatus("CONFIRMED");
+        booking.setBookingStatus("PENDING");
 
         // Price Calculation Logic
         long nights = ChronoUnit.DAYS.between(request.getCheckInDate(), request.getCheckOutDate());

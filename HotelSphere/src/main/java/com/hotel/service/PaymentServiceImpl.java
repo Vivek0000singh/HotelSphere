@@ -15,34 +15,31 @@ import com.hotel.service.PaymentService;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    private final PaymentRepository paymentRepository;
-    private final BookingRepository bookingRepository;
+	private final PaymentRepository paymentRepository;
+	private final BookingRepository bookingRepository;
 
- 
-    public PaymentServiceImpl(PaymentRepository paymentRepository, 
-                              BookingRepository bookingRepository) {
-        this.paymentRepository = paymentRepository;
-        this.bookingRepository = bookingRepository;
-    }
+	public PaymentServiceImpl(PaymentRepository paymentRepository, BookingRepository bookingRepository) {
+		this.paymentRepository = paymentRepository;
+		this.bookingRepository = bookingRepository;
+	}
 
-    @Override
-    public Payment createPayment(Long bookingId, BigDecimal amount, String method) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
+	@Override
+	public Payment createPayment(Long bookingId, BigDecimal amount, String paymentMethod, String transactionId) {
+		Booking booking = bookingRepository.findById(bookingId)
+				.orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
 
-        Payment payment = new Payment();
-        payment.setBooking(booking);
-        payment.setAmount(amount);
-        payment.setPaymentMethod(method);
-        payment.setPaymentDate(LocalDateTime.now());
-        payment.setPaymentStatus("SUCCESS");
+		Payment payment = new Payment();
+		payment.setBooking(booking);
+		payment.setAmount(amount);
+		payment.setPaymentMethod(paymentMethod);
+		payment.setTransactionId(transactionId);
+		payment.setPaymentDate(LocalDateTime.now());
 
-        Payment savedPayment = paymentRepository.save(payment);
+		// 3. Update the Booking status to CONFIRMED
+		booking.setBookingStatus("CONFIRMED");
+		bookingRepository.save(booking);
 
-        // Update booking status
-        booking.setBookingStatus("PAID");
-        bookingRepository.save(booking);
-
-        return savedPayment;
-    }
+		// 4. Save the payment record
+		return paymentRepository.save(payment);
+	}
 }

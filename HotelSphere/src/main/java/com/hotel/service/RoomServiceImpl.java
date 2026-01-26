@@ -25,8 +25,9 @@ public class RoomServiceImpl implements RoomService {
 
         if (roomType != null && !roomType.isEmpty()) {
             return availableRooms.stream()
-                    .filter(room -> room.getRoomType().getName().equalsIgnoreCase(roomType))
-                    .collect(Collectors.toList());
+            		.filter(room -> room.getRoomType().getName().toLowerCase()
+                            .contains(roomType.toLowerCase())) 
+            .collect(Collectors.toList());
         }
         return availableRooms;
     }

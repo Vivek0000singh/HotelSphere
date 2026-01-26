@@ -18,4 +18,6 @@ public class PaymentRequestDTO {
 
 	    @NotBlank
 	    private String paymentMethod;
+	    
+	    private String transactionId;
 }

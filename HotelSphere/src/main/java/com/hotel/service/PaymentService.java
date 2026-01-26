@@ -6,5 +6,5 @@ import com.hotel.entity.Payment;
 
 public interface PaymentService {
 
-    Payment createPayment(Long bookingId, BigDecimal amount, String method);
+	Payment createPayment(Long bookingId, BigDecimal amount, String paymentMethod, String transactionId);
 }

@@ -15,7 +15,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
       <div className="container">
         <Link className="navbar-brand fw-bold" to="/">
-          🏨 HotelSphere
+          HotelSphere
         </Link>
 
         <button

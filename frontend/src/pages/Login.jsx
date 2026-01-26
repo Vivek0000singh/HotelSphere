@@ -24,7 +24,7 @@ const Login = () => {
 
       localStorage.setItem("role", res.data.user?.role || res.data.role);
 
-      navigate("/rooms");
+      navigate("/");
     } catch (err) {
       setError("Invalid email or password");
     }
