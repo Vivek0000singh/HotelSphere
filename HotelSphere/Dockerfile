@@ -6,5 +6,5 @@ COPY . .
 RUN chmod +x mvnw
 
 RUN ./mvnw clean package -DskipTests
-# IMPORTANT: Ensure this matches the jar name in your target folder
+# Ensure this matches your actual jar name
 CMD ["java", "-jar", "target/springboot_backend_template-0.0.1.jar"]
