@@ -52,7 +52,7 @@ Built with **Spring Boot** (Backend) and **React.js** (Frontend) with a MySQL da
     ```
 4.  Access the app at `http://localhost:3000`.
 
-5.  SnapShots
+## SnapShots
    <img width="1351" height="687" alt="proj1" src="https://github.com/user-attachments/assets/2357d61f-52df-49bb-b524-d2bf25ada128" />
    
 <img width="1355" height="727" alt="proj8" src="https://github.com/user-attachments/assets/861eab21-4ce5-4512-ad5d-d35282c9ec57" />
