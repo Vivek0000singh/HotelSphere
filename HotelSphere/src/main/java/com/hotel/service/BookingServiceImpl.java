@@ -5,6 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // ✅ Import this
 
 import com.hotel.dto.BookingRequestDTO;
 import com.hotel.entity.Booking;
@@ -14,7 +15,6 @@ import com.hotel.exception.ResourceNotFoundException;
 import com.hotel.repository.BookingRepository;
 import com.hotel.repository.RoomRepository;
 import com.hotel.repository.UserRepository;
-import com.hotel.service.BookingService;
 
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -23,7 +23,6 @@ public class BookingServiceImpl implements BookingService {
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
 
-    
     public BookingServiceImpl(BookingRepository bookingRepository, 
                               RoomRepository roomRepository, 
                               UserRepository userRepository) {
@@ -33,10 +32,25 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional //  CRITICAL: Keeps the Lock active during this whole method
     public Booking createBooking(BookingRequestDTO request) {
-        Room room = roomRepository.findById(request.getRoomId())
+        
+        // 1.  Fetch Room with LOCK (Other users wait here)
+        Room room = roomRepository.findByIdWithLock(request.getRoomId())
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found"));
 
+        // 2. 🕵️‍♂ Check Availability (Now safe because we hold the lock)
+        boolean isAvailable = roomRepository.isRoomAvailable(
+                request.getRoomId(), 
+                request.getCheckInDate(), 
+                request.getCheckOutDate()
+        );
+
+        if (!isAvailable) {
+            throw new IllegalStateException("Room is already booked for these dates!");
+        }
+
+        // 3. Proceed with Booking
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -47,11 +61,12 @@ public class BookingServiceImpl implements BookingService {
         booking.setCheckOutDate(request.getCheckOutDate());
         booking.setBookingStatus("PENDING");
 
-        // Price Calculation Logic
+        // Price Calculation
         long nights = ChronoUnit.DAYS.between(request.getCheckInDate(), request.getCheckOutDate());
         if (nights < 1) nights = 1;
 
-        BigDecimal pricePerNight = room.getRoomType().getBasePricePerNight();
+        // Ensure roomType isn't null in your Entity or handle potential NPE here
+        BigDecimal pricePerNight = room.getRoomType().getBasePricePerNight(); // ✅ Matches your Entity// Assuming field is 'price' based on previous code
         BigDecimal totalPrice = pricePerNight.multiply(BigDecimal.valueOf(nights));
 
         booking.setTotalAmount(totalPrice);
