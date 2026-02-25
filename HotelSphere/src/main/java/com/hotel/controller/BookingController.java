@@ -17,7 +17,7 @@ public class BookingController {
     private final BookingService bookingService;
     private final BookingRepository bookingRepository; // Removed @Autowired, let Lombok handle it
 
-    // 🔥 MERGED & SECURE CREATE METHOD
+    //  MERGED & SECURE CREATE METHOD
     @PostMapping("/create")
     public ResponseEntity<?> createBooking(@RequestBody BookingRequestDTO bookingRequest) {
         
@@ -30,7 +30,7 @@ public class BookingController {
         );
 
         if (isOccupied) {
-            // ❌ Fail gracefully
+            //  Fail gracefully
             return ResponseEntity.status(409).body("Room is already booked for these dates!");
         }
 

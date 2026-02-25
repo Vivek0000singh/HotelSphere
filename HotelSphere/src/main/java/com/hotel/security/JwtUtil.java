@@ -45,11 +45,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Validation
-    public boolean validateToken(String token) {
-        // You can add expiration checks here
-        return true; 
-    }
     
     // Validate with UserDetails (Optional, keeping for safety)
     public boolean validateToken(String token, UserDetails userDetails) {
