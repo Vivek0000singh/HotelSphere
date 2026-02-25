@@ -25,7 +25,7 @@ public class Booking {
     @Column(precision = 10, scale = 2)
     private BigDecimal amountPaid = BigDecimal.ZERO;
     
-    // CONFIRMED, CANCELLED
+
 
    
     private BigDecimal totalAmount; 
@@ -45,7 +45,7 @@ public class Booking {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
-        // Initialize totalAmount to 0 if null to avoid math errors later
+        
         if (totalAmount == null) {
             totalAmount = BigDecimal.ZERO;
         }

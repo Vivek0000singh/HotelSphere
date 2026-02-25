@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional; // ✅ Import this
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hotel.dto.BookingRequestDTO;
 import com.hotel.entity.Booking;
@@ -32,14 +32,14 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    @Transactional //  CRITICAL: Keeps the Lock active during this whole method
+    @Transactional
     public Booking createBooking(BookingRequestDTO request) {
         
-        // 1.  Fetch Room with LOCK (Other users wait here)
+        // 1.  Fetch Room with LOCK 
         Room room = roomRepository.findByIdWithLock(request.getRoomId())
                 .orElseThrow(() -> new ResourceNotFoundException("Room not found"));
 
-        // 2. 🕵️‍♂ Check Availability (Now safe because we hold the lock)
+        // 2. Check Availability 
         boolean isAvailable = roomRepository.isRoomAvailable(
                 request.getRoomId(), 
                 request.getCheckInDate(), 
@@ -65,8 +65,8 @@ public class BookingServiceImpl implements BookingService {
         long nights = ChronoUnit.DAYS.between(request.getCheckInDate(), request.getCheckOutDate());
         if (nights < 1) nights = 1;
 
-        // Ensure roomType isn't null in your Entity or handle potential NPE here
-        BigDecimal pricePerNight = room.getRoomType().getBasePricePerNight(); // ✅ Matches your Entity// Assuming field is 'price' based on previous code
+        
+        BigDecimal pricePerNight = room.getRoomType().getBasePricePerNight(); 
         BigDecimal totalPrice = pricePerNight.multiply(BigDecimal.valueOf(nights));
 
         booking.setTotalAmount(totalPrice);

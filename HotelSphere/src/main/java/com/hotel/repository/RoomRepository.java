@@ -28,7 +28,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
         @Param("checkOut") LocalDate checkOut
     );
     
-    //  NEW: Helper to quickly check availability for ONE room
+    //   Helper to quickly check availability for ONE room
     @Query("SELECT COUNT(b) = 0 FROM Booking b " +
            "WHERE b.room.roomId = :roomId " +
            "AND b.bookingStatus <> 'CANCELLED' " +
@@ -39,7 +39,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
         @Param("checkOut") LocalDate checkOut
     );
 
-    // FIX: PESSIMISTIC_WRITE Lock (Used r.roomId instead of r.id for consistency)
+    //  PESSIMISTIC_WRITE Lock (Used r.roomId instead of r.id for consistency)
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT r FROM Room r WHERE r.roomId = :id")
     Optional<Room> findByIdWithLock(@Param("id") Long id);

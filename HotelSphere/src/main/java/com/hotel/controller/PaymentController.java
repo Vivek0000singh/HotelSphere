@@ -60,7 +60,7 @@ public class PaymentController {
     }
 
     /**
-     * Step 2: Finalize payment in your database.
+     * Step 2: Finalize payment in database.
      * This is called after the Razorpay popup successfully completes.
      */
     @PostMapping("/pay")
@@ -69,7 +69,7 @@ public class PaymentController {
                 request.getBookingId(),
                 request.getAmount(),
                 request.getPaymentMethod(),
-                request.getTransactionId() // Pass the Razorpay Payment ID here
+                request.getTransactionId() 
         );
         return ResponseEntity.ok(payment);
     }

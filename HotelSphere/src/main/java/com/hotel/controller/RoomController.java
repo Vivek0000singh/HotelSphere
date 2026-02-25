@@ -24,7 +24,7 @@ import com.hotel.exception.ResourceNotFoundException;
 import com.hotel.repository.BookingRepository;
 import com.hotel.repository.BookingServiceRepository;
 import com.hotel.repository.PaymentRepository;
-import com.hotel.repository.RoomRepository; // ✅ Make sure this is imported
+import com.hotel.repository.RoomRepository; 
 import com.hotel.repository.RoomTypeRepository;
 import com.hotel.service.RoomService;
 
@@ -70,7 +70,7 @@ public class RoomController {
             bookingRepository.deleteAll(bookings);
         }
 
-        // This works now because roomRepository is declared above
+       
         roomRepository.deleteById(id);
         
         return ResponseEntity.noContent().build();
@@ -101,7 +101,7 @@ public class RoomController {
         return ResponseEntity.ok(room);
     }
     
-    // 🔥 FIX 2: Removed duplicate @GetMapping("/available")
+    
     @GetMapping("/available")
     public ResponseEntity<List<Room>> getAvailableRooms(
             @RequestParam("checkIn") String checkInStr,

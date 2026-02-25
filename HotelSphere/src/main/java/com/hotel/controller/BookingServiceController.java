@@ -2,7 +2,7 @@ package com.hotel.controller;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit; // 🔥 Import for calculating days
+import java.time.temporal.ChronoUnit; 
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;

@@ -10,7 +10,7 @@ import com.hotel.dto.LoginRequestDTO;
 import com.hotel.dto.RegisterRequestDTO;
 import com.hotel.entity.User;
 import com.hotel.repository.UserRepository;
-import com.hotel.security.JwtUtil; // Make sure JwtUtil is in this package
+import com.hotel.security.JwtUtil; 
 
 @Service
 public class AuthServiceImpl implements AuthService {

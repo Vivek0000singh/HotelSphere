@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data // Generates Getters, Setters (including setRole), etc.
+@Data // Generates Getters, Setters (including setRole)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -41,15 +41,15 @@ public class User implements UserDetails {
 
 	private String phone;
 	private String passwordHash;
-	private String role; // e.g., "ADMIN" or "USER"
+	private String role; 
 
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	
 	
 	
-	private String secretQuestion; // e.g., "What is your pet's name?"
-	private String secretAnswer;   // e.g., "Tommy"
+	private String secretQuestion; //  "What is your pet's name?"
+	private String secretAnswer;   //  "Tommy"
 
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore

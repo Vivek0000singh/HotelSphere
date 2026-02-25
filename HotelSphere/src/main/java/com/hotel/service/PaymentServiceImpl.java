@@ -25,7 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
 
-        // 1. Create Payment Record
+       
         Payment payment = new Payment();
         payment.setBooking(booking);
         payment.setAmount(amount);
@@ -33,21 +33,18 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setTransactionId(transactionId);
         payment.setPaymentDate(LocalDateTime.now());
         
-        // 2.  LOGIC FIX: Add new payment to existing amountPaid
+        
         BigDecimal currentPaid = booking.getAmountPaid() != null ? booking.getAmountPaid() : BigDecimal.ZERO;
         BigDecimal newTotalPaid = currentPaid.add(amount);
         booking.setAmountPaid(newTotalPaid);
 
-        // 3. Update Status: Only CONFIRM if Total is fully paid
-        // (Use compareTo: if newTotalPaid >= totalAmount)
+        
         BigDecimal totalCost = booking.getTotalAmount() != null ? booking.getTotalAmount() : BigDecimal.ZERO;
         
         if (newTotalPaid.compareTo(totalCost) >= 0) {
             booking.setBookingStatus("CONFIRMED");
         } else {
-            // If they paid some, but not all (e.g., partial payment), you might want to keep it PENDING or use "PARTIAL"
-            // For now, keeping PENDING is safer if balance > 0
-            if (!"CONFIRMED".equals(booking.getBookingStatus())) {
+                 if (!"CONFIRMED".equals(booking.getBookingStatus())) {
                  booking.setBookingStatus("PENDING");
             }
         }

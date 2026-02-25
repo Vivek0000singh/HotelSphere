@@ -10,13 +10,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-// 🔥 FIX: Renamed table to 'hotel_booking_services' to force a fresh start
+
 @Table(name = "hotel_booking_services") 
 public class BookingService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // 🔥 FIX: Explicitly naming the column to avoid confusion
+
     @Column(name = "booking_service_id") 
     private Long id;
 

@@ -11,18 +11,16 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/bookings")
-@RequiredArgsConstructor // Automatically injects 'final' fields
+@RequiredArgsConstructor 
 public class BookingController {
 
     private final BookingService bookingService;
-    private final BookingRepository bookingRepository; // Removed @Autowired, let Lombok handle it
-
-    //  MERGED & SECURE CREATE METHOD
+    private final BookingRepository bookingRepository; 
+  
     @PostMapping("/create")
     public ResponseEntity<?> createBooking(@RequestBody BookingRequestDTO bookingRequest) {
         
-        // 1. LOCK / CHECK: Is the room free?
-        // Note: We check specifically for the Room ID and Dates requested
+   
         boolean isOccupied = bookingRepository.existsByRoomIdAndDateRange(
             bookingRequest.getRoomId(),
             bookingRequest.getCheckInDate(),
@@ -30,22 +28,22 @@ public class BookingController {
         );
 
         if (isOccupied) {
-            //  Fail gracefully
+           
             return ResponseEntity.status(409).body("Room is already booked for these dates!");
         }
 
-        // 2. PROCEED: Logic is safe, call the service to save
+     
         Booking newBooking = bookingService.createBooking(bookingRequest);
         return ResponseEntity.ok(newBooking);
     }
 
-    // 2. GET ALL BOOKINGS
+    // GET ALL BOOKINGS
     @GetMapping("/all")
     public ResponseEntity<List<Booking>> getAllBookings() {
         return ResponseEntity.ok(bookingService.getAllBookings());
     }
 
-    // 3. GET USER BOOKINGS 
+    // GET USER BOOKINGS 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Booking>> getUserBookings(@PathVariable Long userId) {
         return ResponseEntity.ok(bookingService.getUserBookings(userId));
